@@ -8,7 +8,7 @@
   <section class="results">
   <app-housing-location
 
-    *ngFor="let housingLocation of filteredLocationList" [housingLocation]="housingLocation">
+    *ngFor="let location of locations$ | async" [housingLocation]="location">
 
   </app-housing-location>
   </section>

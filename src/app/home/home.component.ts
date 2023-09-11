@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HousingLocationComponent } from '../housing-location/housing-location.component';
 import { HousingLocation } from '../housinglocation';
 import { HousingService } from '../housing.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,9 @@ import { HousingService } from '../housing.service';
 })
 
 export class HomeComponent {
+  public locations$: Observable<HousingLocation[]>
+
+
   housingLocationList: HousingLocation[] = [];
   housingService: HousingService = inject(HousingService)
   filteredLocationList: HousingLocation[] = [];
@@ -31,6 +35,8 @@ export class HomeComponent {
   }
 
   constructor() {
+    this.locations$ = this.housingService.getHousingLocations()
+
     this.housingService.getAllHousingLocations().then((housingLocationList: HousingLocation[]) => {
       this.housingLocationList = housingLocationList;
       this.filteredLocationList = housingLocationList;
