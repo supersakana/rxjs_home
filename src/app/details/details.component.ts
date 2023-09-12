@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { HousingService } from '../housing.service';
 import { HousingLocation } from '../housinglocation';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -23,6 +24,8 @@ export class DetailsComponent {
   housingService = inject(HousingService);
   housingLocation: HousingLocation | undefined;
 
+  location$
+
   applyForm = new FormGroup({
     firstName: new FormControl(''),
     lastName: new FormControl(''),
@@ -31,9 +34,14 @@ export class DetailsComponent {
 
   constructor() {
     const housingLocationId = parseInt(this.route.snapshot.params['id'], 10);
-    this.housingService.getHousingLocationById(housingLocationId).then(housingLocation => {
-      this.housingLocation = housingLocation;
-    });
+
+    this.housingService.init()
+
+    this.location$ = this.housingService.getHousingLocationById2(housingLocationId)
+
+    // this.housingService.getHousingLocationById2(housingLocationId).subscribe((v) => {
+    //   console.log(v)
+    // })
   }
 
   submitApplication() {

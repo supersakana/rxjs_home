@@ -28,10 +28,6 @@ export class HousingService {
     )
   }
 
-  constructor() { 
-    this.init()
-  }
-
   // --------------------------------------------------------------------
 
 
