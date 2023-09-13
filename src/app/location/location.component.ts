@@ -11,6 +11,6 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./location.component.css']
 })
 export class LocationComponent {
-  @Input() housingLocation!: Location;
+  @Input() location!: Location;
 
 }

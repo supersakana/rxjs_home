@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Location } from './location';
-import { BehaviorSubject, Observable, pipe } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class LocationService {
     return this.locations$
   }
 
-  public getLocationById(id: number) {
+  public getLocationById(id: number): Observable<Location | undefined> {
     return this.locations$.pipe(
       map((locations) => { 
         return locations.find((location) => location.id === id)
@@ -28,7 +28,7 @@ export class LocationService {
     )
   }
 
-  public filterLocations(text: string) {
+  public filterLocations(text: string): Observable<Location[]> {
     return this.locations$.pipe(
       map((locations) => { 
         return locations.filter((location) => location?.city.toLowerCase().includes(text.toLowerCase()))
