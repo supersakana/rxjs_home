@@ -7,29 +7,29 @@ import { map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class LocationService {
-  private housingLocations$ = new BehaviorSubject<Location[]>([])
+  private locations$ = new BehaviorSubject<Location[]>([])
   private url = 'http://localhost:3000/locations';
 
   public async init() {
     const data = await fetch(this.url)
     const locations = await data.json() ?? []
-    this.housingLocations$.next(locations)
+    this.locations$.next(locations)
   }
 
-  public getHousingLocations(): Observable<Location[]> {
-    return this.housingLocations$
+  public getLocations(): Observable<Location[]> {
+    return this.locations$
   }
 
-  public getHousingLocationById(id: number) {
-    return this.housingLocations$.pipe(
+  public getLocationById(id: number) {
+    return this.locations$.pipe(
       map((locations) => { 
         return locations.find((location) => location.id === id)
       })
     )
   }
 
-  public filterHousingLocation(text: string) {
-    return this.housingLocations$.pipe(
+  public filterLocations(text: string) {
+    return this.locations$.pipe(
       map((locations) => { 
         return locations.filter((location) => location?.city.toLowerCase().includes(text.toLowerCase()))
       })

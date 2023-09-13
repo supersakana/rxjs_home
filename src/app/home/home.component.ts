@@ -21,7 +21,7 @@ import { Observable, map } from 'rxjs';
 export class HomeComponent {
   public locations$: Observable<Location[] | undefined>
   public filteredLocations$: Observable<Location[] | undefined>
-  public housingService: LocationService = inject(LocationService)
+  public locationService: LocationService = inject(LocationService)
   public searchForm = new FormGroup({
     query: new FormControl(''),
   })
@@ -31,17 +31,17 @@ export class HomeComponent {
       this.filteredLocations$ = this.locations$
       return
     }
-    this.filteredLocations$ = this.housingService.filterHousingLocation(text)
+    this.filteredLocations$ = this.locationService.filterLocations(text)
   }
 
   constructor() {
-    this.locations$ = this.housingService.getHousingLocations()
+    this.locations$ = this.locationService.getLocations()
     this.filteredLocations$ = this.locations$
 
     this.searchForm.valueChanges.pipe(
       map((value) => { return value })
     ).subscribe((v) => this.filterResults(v.query))
 
-    this.housingService.init()
+    this.locationService.init()
   }
 }

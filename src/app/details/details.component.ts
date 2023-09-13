@@ -21,7 +21,7 @@ import { Observable } from 'rxjs';
 export class DetailsComponent {
 
   route: ActivatedRoute = inject(ActivatedRoute);
-  housingService = inject(LocationService);
+  locationService = inject(LocationService);
   housingLocation: Location | undefined;
 
   location$: Observable<Location | undefined>
@@ -35,13 +35,13 @@ export class DetailsComponent {
   constructor() {
     const housingLocationId = parseInt(this.route.snapshot.params['id'], 10);
 
-    this.housingService.init()
+    this.locationService.init()
 
-    this.location$ = this.housingService.getHousingLocationById(housingLocationId)
+    this.location$ = this.locationService.getLocationById(housingLocationId)
   }
 
   submitApplication() {
-    this.housingService.submitApplication(
+    this.locationService.submitApplication(
       this.applyForm.value.firstName ?? '',
       this.applyForm.value.lastName ?? '',
       this.applyForm.value.email ?? ''
