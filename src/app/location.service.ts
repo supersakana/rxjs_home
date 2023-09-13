@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HousingLocation } from './housinglocation';
+import { Location } from './location';
 import { BehaviorSubject, Observable, pipe } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HousingService {
-  private housingLocations$ = new BehaviorSubject<HousingLocation[]>([])
+export class LocationService {
+  private housingLocations$ = new BehaviorSubject<Location[]>([])
   private url = 'http://localhost:3000/locations';
 
   public async init() {
@@ -16,7 +16,7 @@ export class HousingService {
     this.housingLocations$.next(locations)
   }
 
-  public getHousingLocations(): Observable<HousingLocation[]> {
+  public getHousingLocations(): Observable<Location[]> {
     return this.housingLocations$
   }
 

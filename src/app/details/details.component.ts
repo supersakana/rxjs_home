@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { HousingService } from '../housing.service';
-import { HousingLocation } from '../housinglocation';
+import { LocationService } from '../location.service';
+import { Location } from '../location';
 import { Observable } from 'rxjs';
 
 
@@ -21,10 +21,10 @@ import { Observable } from 'rxjs';
 export class DetailsComponent {
 
   route: ActivatedRoute = inject(ActivatedRoute);
-  housingService = inject(HousingService);
-  housingLocation: HousingLocation | undefined;
+  housingService = inject(LocationService);
+  housingLocation: Location | undefined;
 
-  location$: Observable<HousingLocation | undefined>
+  location$: Observable<Location | undefined>
 
   applyForm = new FormGroup({
     firstName: new FormControl(''),

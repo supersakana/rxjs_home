@@ -1,30 +1,34 @@
 import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HousingLocationComponent } from '../housing-location/housing-location.component';
-import { HousingLocation } from '../housinglocation';
-import { HousingService } from '../housing.service';
-import { Observable } from 'rxjs';
+import { LocationComponent } from '../location/location.component';
+import { Location } from '../location';
+import { LocationService } from '../location.service';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     CommonModule,
-    HousingLocationComponent
+    LocationComponent,
+    ReactiveFormsModule
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 
 export class HomeComponent {
-  public locations$: Observable<HousingLocation[] | undefined>
-  public filteredLocations$: Observable<HousingLocation[] | undefined>
-  public housingService: HousingService = inject(HousingService)
+  public locations$: Observable<Location[] | undefined>
+  public filteredLocations$: Observable<Location[] | undefined>
+  public housingService: LocationService = inject(LocationService)
+  public searchForm = new FormGroup({
+    query: new FormControl(''),
+  })
 
-  filterResults(text: string) {
+  filterResults(text : string | null | undefined) {
     if (!text) {
       this.filteredLocations$ = this.locations$
-      this.filteredLocations$.subscribe(val => console.log(val))
       return
     }
     this.filteredLocations$ = this.housingService.filterHousingLocation(text)
@@ -33,6 +37,10 @@ export class HomeComponent {
   constructor() {
     this.locations$ = this.housingService.getHousingLocations()
     this.filteredLocations$ = this.locations$
+
+    this.searchForm.valueChanges.pipe(
+      map((value) => { return value })
+    ).subscribe((v) => this.filterResults(v.query))
 
     this.housingService.init()
   }
