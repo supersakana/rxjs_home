@@ -45,5 +45,4 @@ export class DetailsComponent {
       this.applyForm.value.email ?? ''
     );
   }
-
 }
