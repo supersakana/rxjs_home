@@ -19,7 +19,7 @@ export class LocationService {
 
   // ^^^ db.json initializer 
 
-   public async init() {
+  public async init() {
     this.locations$.next(this.allLocations)
   }
 

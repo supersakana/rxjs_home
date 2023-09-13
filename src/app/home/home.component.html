@@ -1,14 +1,13 @@
 <section>
     <form [formGroup]="searchForm">
       <input type="text" placeholder="Filter by city" formControlName="query" #filter>
-      <button class="primary" type="button" (click)="filterResults(filter.value)">Search</button>
     </form>
   </section>
 
   <section class="results">
-  <app-housing-location
+    <app-housing-location
 
-    *ngFor="let location of filteredLocations$ | async" [location]="location">
+      *ngFor="let location of filteredLocations$ | async" [location]="location">
 
-  </app-housing-location>
+    </app-housing-location>
   </section>
