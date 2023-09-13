@@ -20,7 +20,7 @@ export class HousingService {
     return this.housingLocations$
   }
 
-  public getHousingLocationById2(id: number) {
+  public getHousingLocationById(id: number) {
     return this.housingLocations$.pipe(
       map((locations) => { 
         return locations.find((location) => location.id === id)
@@ -28,17 +28,12 @@ export class HousingService {
     )
   }
 
-  // --------------------------------------------------------------------
-
-
-  async getAllHousingLocations(): Promise<HousingLocation[]> {
-    const data = await fetch(this.url);
-    return await data.json() ?? [];
-  }
-  
-  async getHousingLocationById(id: number) {
-    const data = await fetch(`${this.url}/${id}`);
-    return await data.json() ?? {};
+  public filterHousingLocation(text: string) {
+    return this.housingLocations$.pipe(
+      map((locations) => { 
+        return locations.filter((location) => location?.city.toLowerCase().includes(text.toLowerCase()))
+      })
+    )
   }
 
   submitApplication(firstName: string, lastName: string, email: string) {

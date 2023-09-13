@@ -24,7 +24,7 @@ export class DetailsComponent {
   housingService = inject(HousingService);
   housingLocation: HousingLocation | undefined;
 
-  location$
+  location$: Observable<HousingLocation | undefined>
 
   applyForm = new FormGroup({
     firstName: new FormControl(''),
@@ -37,11 +37,7 @@ export class DetailsComponent {
 
     this.housingService.init()
 
-    this.location$ = this.housingService.getHousingLocationById2(housingLocationId)
-
-    // this.housingService.getHousingLocationById2(housingLocationId).subscribe((v) => {
-    //   console.log(v)
-    // })
+    this.location$ = this.housingService.getHousingLocationById(housingLocationId)
   }
 
   submitApplication() {

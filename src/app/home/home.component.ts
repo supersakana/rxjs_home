@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HousingLocationComponent } from '../housing-location/housing-location.component';
 import { HousingLocation } from '../housinglocation';
@@ -17,37 +17,23 @@ import { Observable } from 'rxjs';
 })
 
 export class HomeComponent {
-  public locations$: Observable<HousingLocation[]>
-
-
-  housingLocationList: HousingLocation[] = [];
-  housingService: HousingService = inject(HousingService)
-  filteredLocationList: HousingLocation[] = [];
+  public locations$: Observable<HousingLocation[] | undefined>
+  public filteredLocations$: Observable<HousingLocation[] | undefined>
+  public housingService: HousingService = inject(HousingService)
 
   filterResults(text: string) {
     if (!text) {
-      this.filteredLocationList = this.housingLocationList;
+      this.filteredLocations$ = this.locations$
+      this.filteredLocations$.subscribe(val => console.log(val))
+      return
     }
-  
-    this.filteredLocationList = this.housingLocationList.filter(
-      housingLocation => housingLocation?.city.toLowerCase().includes(text.toLowerCase())
-    );
+    this.filteredLocations$ = this.housingService.filterHousingLocation(text)
   }
 
   constructor() {
     this.locations$ = this.housingService.getHousingLocations()
-
-    this.locations$.subscribe((loc) => {
-      console.log(loc)
-    })
+    this.filteredLocations$ = this.locations$
 
     this.housingService.init()
-
-    // -----------------------
-
-    this.housingService.getAllHousingLocations().then((housingLocationList: HousingLocation[]) => {
-      this.housingLocationList = housingLocationList;
-      this.filteredLocationList = housingLocationList;
-    });
   }
 }
