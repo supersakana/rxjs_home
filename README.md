@@ -120,6 +120,7 @@ Instead of having to subscribe to the observable from the component itself, I us
 
 ```html
 <!-- src/app/home/home.component.html -->
+
 <section class="results">
   <app-housing-location *ngFor="let location of filteredLocations$ | async" [location]="location"> </app-housing-location>
 </section>
@@ -127,35 +128,38 @@ Instead of having to subscribe to the observable from the component itself, I us
 
 ```html
 <!-- src/app/details/details.component.html -->
-<article>
-  <img class="listing-photo" [src]="(location$ | async)?.photo" alt="Exterior photo of {{ (location$ | async)?.name}}" />
-  <section class="listing-description">
-    <h2 class="listing-heading">{{ (location$ | async)?.name}}</h2>
-    <p class="listing-location">{{(location$ | async)?.city}}, {{(location$ | async)?.state}}</p>
-  </section>
-  <section class="listing-features">
-    <h2 class="section-heading">About this housing location</h2>
-    <ul>
-      <li>Units available: {{(location$ | async)?.availableUnits}}</li>
-      <li>Does this location have wifi: {{(location$ | async)?.wifi}}</li>
-      <li>Does this location have laundry: {{(location$ | async)?.laundry}}</li>
-    </ul>
-  </section>
-  <section class="listing-apply">
-    <h2 class="section-heading">Apply now to live here</h2>
-    <form [formGroup]="applyForm" (submit)="submitApplication()">
-      <label for="first-name">First Name</label>
-      <input id="first-name" type="text" formControlName="firstName" />
 
-      <label for="last-name">Last Name</label>
-      <input id="last-name" type="text" formControlName="lastName" />
+<ng-container *ngIf="location$ | async as location">
+  <article>
+    <img class="listing-photo" [src]="location?.photo" alt="Exterior photo of {{ location?.name}}" />
+    <section class="listing-description">
+      <h2 class="listing-heading">{{ location?.name}}</h2>
+      <p class="listing-location">{{location?.city}}, {{location?.state}}</p>
+    </section>
+    <section class="listing-features">
+      <h2 class="section-heading">About this housing location</h2>
+      <ul>
+        <li>Units available: {{location?.availableUnits}}</li>
+        <li>Does this location have wifi: {{ location?.wifi }}</li>
+        <li>Does this location have laundry: {{ location?.laundry }}</li>
+      </ul>
+    </section>
+    <section class="listing-apply">
+      <h2 class="section-heading">Apply now to live here</h2>
+      <form [formGroup]="applyForm" (submit)="submitApplication()">
+        <label for="first-name">First Name</label>
+        <input id="first-name" type="text" formControlName="firstName" />
 
-      <label for="email">Email</label>
-      <input id="email" type="email" formControlName="email" />
-      <button type="submit" class="primary">Apply now</button>
-    </form>
-  </section>
-</article>
+        <label for="last-name">Last Name</label>
+        <input id="last-name" type="text" formControlName="lastName" />
+
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" />
+        <button type="submit" class="primary">Apply now</button>
+      </form>
+    </section>
+  </article>
+</ng-container>
 ```
 
 ## Reflection
