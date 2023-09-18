@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { LocationService } from '../location.service';
 import { Location } from '../location';
-import { Observable } from 'rxjs';
+import { Observable, switchMap, map } from 'rxjs';
 
 
 @Component({
@@ -24,7 +24,7 @@ export class DetailsComponent {
   locationService = inject(LocationService);
   housingLocation: Location | undefined;
 
-  location$: Observable<Location | undefined>
+  location$: Observable<Location | null | undefined>
 
   applyForm = new FormGroup({
     firstName: new FormControl(''),
@@ -33,8 +33,17 @@ export class DetailsComponent {
   });
 
   constructor() {
-    const housingLocationId = parseInt(this.route.snapshot.params['id'], 10);
-    this.location$ = this.locationService.getLocationById(housingLocationId)
+    this.location$ = this.route.paramMap.pipe(
+      switchMap((params) =>
+      this.locationService.getLocations().pipe(
+        map((locations) => 
+          locations ? 
+          locations.find((location) => `${location.id}` === params.get('id')) :
+          null
+        )
+      )
+      )
+    )
     this.locationService.init()
   }
 

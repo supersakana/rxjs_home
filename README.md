@@ -46,14 +46,6 @@ export class LocationService {
       })
     );
   }
-
-  public filterLocations(text: string): Observable<Location[]> {
-    return this.locations$.pipe(
-      map((locations) => {
-        return locations.filter((location) => location?.city.toLowerCase().includes(text.toLowerCase()));
-      })
-    );
-  }
 }
 ```
 
@@ -102,8 +94,7 @@ export class DetailsComponent {
   // ...
 
   constructor() {
-    const housingLocationId = parseInt(this.route.snapshot.params["id"], 10);
-    this.location$ = this.locationService.getLocationById(housingLocationId);
+    this.location$ = this.route.paramMap.pipe(switchMap((params) => this.locationService.getLocations().pipe(map((locations) => (locations ? locations.find((location) => `${location.id}` === params.get("id")) : null)))));
     this.locationService.init();
   }
   // ...

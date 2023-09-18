@@ -27,14 +27,6 @@ export class LocationService {
     return this.locations$
   }
 
-  public getLocationById(id: number): Observable<Location | undefined> {
-    return this.locations$.pipe(
-      map((locations) => { 
-        return locations.find((location) => location.id === id)
-      })
-    )
-  }
-
   public filterLocations(text: string): Observable<Location[]> {
     return this.locations$.pipe(
       map((locations) => { 
