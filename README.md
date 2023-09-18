@@ -82,13 +82,7 @@ export class HomeComponent {
     this.locations$ = this.locationService.getLocations();
     this.filteredLocations$ = this.locations$;
 
-    this.searchForm.valueChanges
-      .pipe(
-        map((value) => {
-          return value;
-        })
-      )
-      .subscribe((v) => this.filterResults(v.query));
+    this.searchForm.valueChanges.subscribe((v) => this.filterResults(v.query));
 
     this.locationService.init();
   }
