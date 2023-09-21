@@ -6,10 +6,17 @@ import { bootstrapApplication,provideProtractorTestingSupport } from '@angular/p
 import { AppComponent } from './app/app.component';
 import { provideRouter } from '@angular/router';
 import routeConfig from "./app/routes"
+import { NhostClient } from '@nhost/nhost-js';
+
+const nhost = new NhostClient({
+  subdomain: 'nhfzfnbrqgppufcjkaqf',
+  region: 'us-east-1'
+})
 
 bootstrapApplication(AppComponent,
     {providers: [
       provideProtractorTestingSupport(),
-      provideRouter(routeConfig)
+      provideRouter(routeConfig),
+      { provide: nhost, useValue: nhost }
     ]})
   .catch(err => console.error(err));

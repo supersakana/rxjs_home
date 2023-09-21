@@ -22,7 +22,6 @@ export class HomeComponent {
   public locations$: Observable<Location[] | undefined>;
   public filteredLocations$: Observable<Location[] | undefined>;
   public locationService: LocationService = inject(LocationService);
-  public test$
   public searchForm = new FormGroup({
     query: new FormControl(""),
   });
@@ -39,9 +38,7 @@ export class HomeComponent {
     this.locations$ = this.locationService.getLocations();
     this.filteredLocations$ = this.locations$;
 
-    this.test$ = this.searchForm.valueChanges
-
-    // this.searchForm.valueChanges.subscribe((v) => this.filterResults(v.query));
+    this.searchForm.valueChanges.subscribe((v) => this.filterResults(v.query));
 
     this.locationService.init();
   }
