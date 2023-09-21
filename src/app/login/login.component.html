@@ -1,1 +1,14 @@
-<p>login works!</p>
+<section>
+    <h2>Login</h2>
+    <form class="login-form" [formGroup]="loginForm" (submit)="submitApplication()">
+
+      <input placeholder="Username or Email" type="email" formControlName="email">
+      <input placeholder="Password" type="password" formControlName="password">
+
+      <button placeholder="Password" type="submit" class="primary">Login</button>
+    </form>
+
+    <p>Don't have an account?
+      <a [routerLink]="['/register']">Register</a>
+    </p>
+</section>
