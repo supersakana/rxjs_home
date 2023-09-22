@@ -1,3 +1,13 @@
 table:
   name: messages
   schema: public
+insert_permissions:
+  - role: public
+    permission:
+      check:
+        author_id:
+          _eq: X-Hasura-User-Id
+      set:
+        author_id: X-Hasura-User-Id
+      columns:
+        - text
