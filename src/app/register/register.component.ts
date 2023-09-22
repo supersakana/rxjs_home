@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { nhost } from '../lib/nhost';
 
 @Component({
   selector: 'app-register',
@@ -17,16 +18,18 @@ import { RouterModule } from '@angular/router';
 export class RegisterComponent {
 
   registerForm = new FormGroup({
-    username: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
   });
 
-  submitApplication() {
-    console.log(
-      this.registerForm.value.username ?? '',
-      this.registerForm.value.email ?? '',
-      this.registerForm.value.password ?? ''
-    );
+  constructor(){
+    console.log(nhost.graphql.httpUrl)
+  }
+
+  async submitApplication() {
+    await nhost.auth.signUp({
+      email: this.registerForm.value.email ?? '',
+      password: this.registerForm.value.password ?? ''
+    })
   }
 }
